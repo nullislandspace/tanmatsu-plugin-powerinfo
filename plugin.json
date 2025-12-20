@@ -1,0 +1,11 @@
+{
+    "name": "Power Info",
+    "slug": "powerinfo",
+    "version": "1.0.0",
+    "author": "Tanmatsu",
+    "description": "Displays system voltage in status bar",
+    "type": "service",
+    "api_version": 1,
+    "permissions": ["power"],
+    "autostart": false
+}
