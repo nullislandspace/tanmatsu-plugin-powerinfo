@@ -50,12 +50,12 @@ static int status_widget_callback(pax_buf_t* buffer, int x_right, int y, int hei
     int text_len = format_voltage_mv(text, voltage_mv);
 
     // Draw text to the left of x_right
-    // Use font size 12, estimate ~9 pixels per character
-    int text_width = text_len * 9;
+    // Use font size 16 (matches status bar), estimate ~10 pixels per character
+    int text_width = text_len * 10;
     int text_x = x_right - text_width - 2;
-    int text_y = y + (height - 12) / 2;
+    int text_y = y + (height - 16) / 2;
 
-    plugin_draw_text(buffer, text_x, text_y, 12, 0xFF000000, text);
+    plugin_draw_text(buffer, text_x, text_y, 16, 0xFF340132, text);
     return text_width + 4;  // Width used including margins
 }
 
