@@ -4,6 +4,12 @@
 // This plugin displays the current system voltage in the status bar.
 
 #include "tanmatsu_plugin.h"
+#include "asp/power.h"
+#include "asp/err.h"
+#include "pax_gfx.h"
+
+// External font used by launcher status bar (exported to plugins)
+extern const pax_font_t chakrapetchmedium;
 
 // Plugin state
 static int widget_id = -1;
@@ -41,7 +47,7 @@ static int status_widget_callback(pax_buf_t* buffer, int x_right, int y, int hei
     (void)user_data;
 
     uint16_t voltage_mv;
-    if (!plugin_power_get_system_voltage(&voltage_mv)) {
+    if (asp_power_get_system_voltage(&voltage_mv) != ASP_OK) {
         return 0;  // No width if failed
     }
 
@@ -55,7 +61,7 @@ static int status_widget_callback(pax_buf_t* buffer, int x_right, int y, int hei
     int text_x = x_right - text_width - 2;
     int text_y = y + (height - 16) / 2;
 
-    plugin_draw_text(buffer, text_x, text_y, 16, 0xFF340132, text);
+    pax_draw_text(buffer, 0xFF340132, &chakrapetchmedium, 16, text_x, text_y, text);
     return text_width + 4;  // Width used including margins
 }
 
@@ -80,16 +86,16 @@ static const plugin_info_t* get_info(void) {
 static int plugin_init(plugin_context_t* ctx) {
     (void)ctx;
 
-    plugin_log_info("powerinfo", "Power Info plugin initializing...");
+    asp_log_info("powerinfo", "Power Info plugin initializing...");
 
     // Register status widget to show voltage
-    widget_id = plugin_status_widget_register(status_widget_callback, NULL);
+    widget_id = asp_plugin_status_widget_register(status_widget_callback, NULL);
     if (widget_id < 0) {
-        plugin_log_error("powerinfo", "Failed to register status widget");
+        asp_log_error("powerinfo", "Failed to register status widget");
         return -1;
     }
 
-    plugin_log_info("powerinfo", "Power Info plugin initialized, widget_id=%d", widget_id);
+    asp_log_info("powerinfo", "Power Info plugin initialized, widget_id=%d", widget_id);
     return 0;
 }
 
@@ -99,24 +105,24 @@ static void plugin_cleanup(plugin_context_t* ctx) {
 
     // Unregister status widget
     if (widget_id >= 0) {
-        plugin_status_widget_unregister(widget_id);
+        asp_plugin_status_widget_unregister(widget_id);
         widget_id = -1;
     }
 
-    plugin_log_info("powerinfo", "Power Info plugin cleaned up");
+    asp_log_info("powerinfo", "Power Info plugin cleaned up");
 }
 
 // Service main loop - just keeps plugin alive
 // The widget is redrawn automatically when the screen refreshes
 static void plugin_service_run(plugin_context_t* ctx) {
-    plugin_log_info("powerinfo", "Power Info service starting...");
+    asp_log_info("powerinfo", "Power Info service starting...");
 
-    while (!plugin_should_stop(ctx)) {
+    while (!asp_plugin_should_stop(ctx)) {
         // Just sleep - the widget callback is called when screen refreshes
-        plugin_delay_ms(100);
+        asp_plugin_delay_ms(100);
     }
 
-    plugin_log_info("powerinfo", "Power Info service stopped");
+    asp_log_info("powerinfo", "Power Info service stopped");
 }
 
 // Plugin entry point structure
