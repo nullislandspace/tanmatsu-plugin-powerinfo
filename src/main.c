@@ -84,12 +84,10 @@ static const plugin_info_t* get_info(void) {
 
 // Plugin initialization
 static int plugin_init(plugin_context_t* ctx) {
-    (void)ctx;
-
     asp_log_info("powerinfo", "Power Info plugin initializing...");
 
     // Register status widget to show voltage
-    widget_id = asp_plugin_status_widget_register(status_widget_callback, NULL);
+    widget_id = asp_plugin_status_widget_register(ctx, status_widget_callback, NULL);
     if (widget_id < 0) {
         asp_log_error("powerinfo", "Failed to register status widget");
         return -1;
