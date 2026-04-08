@@ -1,8 +1,8 @@
 {
     "name": "Power Info",
-    "slug": "powerinfo",
+    "slug": "at.cavac.powerinfo",
     "version": "1.0.0",
-    "author": "Tanmatsu",
+    "author": "Rene Schickbauer",
     "description": "Displays system voltage in status bar",
     "type": "service",
     "api_version": 1,

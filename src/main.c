@@ -68,9 +68,9 @@ static int status_widget_callback(pax_buf_t* buffer, int x_right, int y, int hei
 // Plugin metadata
 static const plugin_info_t plugin_info = {
     .name = "Power Info",
-    .slug = "powerinfo",
+    .slug = "at.cavac.powerinfo",
     .version = "1.0.0",
-    .author = "Tanmatsu",
+    .author = "Rene Schickbauer",
     .description = "Displays system voltage in status bar",
     .api_version = TANMATSU_PLUGIN_API_VERSION,
     .type = PLUGIN_TYPE_SERVICE,
